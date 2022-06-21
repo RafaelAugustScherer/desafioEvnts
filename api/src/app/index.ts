@@ -16,7 +16,7 @@ class App {
   start(port: number) {
     this.app.listen(
       port,
-      () => console.log('App running at ', port),
+      () => console.log('App running at', port),
     );
   }
 }
