@@ -3,39 +3,42 @@ import IService from '../interface/Service';
 import ERRORS from '../utilities/errors';
 
 class Service<T> implements IService<T> {
-  constructor(private model: Model<T>) {}
+  constructor(
+    protected entity: keyof typeof ERRORS,
+    protected model: Model<T>,
+  ) {}
 
-  create = async (payload: T) => {
+  create = async (payload: T): Promise<T> => {
     const response = await this.model.create(payload);
     return response.toObject();
   };
 
-  read = async (filter: Partial<T>) => (
+  read = async (filter: Partial<T>): Promise<T[]> => (
     this.model.find({ where: { ...filter } })
   );
 
-  readOne = async (id: number | string) => {
+  readOne = async (id: number | string): Promise<T> => {
     const response = await this.model.findById(id);
     if (!response) {
-      throw ERRORS.USER.NOT_FOUND;
+      throw ERRORS[this.entity].NOT_FOUND;
     }
 
     return response;
   };
 
-  update = async (id: number | string, payload: Partial<T>) => {
+  update = async (id: number | string, payload: Partial<T>): Promise<T> => {
     const response = await this.model.findByIdAndUpdate(id, payload);
     if (!response) {
-      throw ERRORS.USER.NOT_FOUND;
+      throw ERRORS[this.entity].NOT_FOUND;
     }
 
     return response;
   };
 
-  delete = async (id: number | string) => {
+  delete = async (id: number | string): Promise<void> => {
     const response = await this.model.findByIdAndDelete(id);
     if (!response) {
-      throw ERRORS.USER.NOT_FOUND;
+      throw ERRORS[this.entity].NOT_FOUND;
     }
   };
 }

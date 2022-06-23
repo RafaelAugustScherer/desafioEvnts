@@ -1,10 +1,12 @@
-import express, { Router } from 'express';
+import express from 'express';
+import 'express-async-errors';
 import { connectToDatabase } from './model/connection';
+import appRouter from './router/app';
 
 class App {
   private app = express();
 
-  constructor(private router: Router) {
+  constructor(private router = appRouter) {
     this.router = router;
     this.config();
   }

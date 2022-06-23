@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express';
 import { ObjectSchema } from 'joi';
+import { ValidationMiddleware as IValidationMiddleware } from '../interface/Middleware';
 
-interface ValidationSchemas {
+interface ValidationSchema {
   create: ObjectSchema,
   read: ObjectSchema,
   readOne: ObjectSchema,
@@ -9,8 +10,8 @@ interface ValidationSchemas {
   delete: ObjectSchema,
 }
 
-class ValidationMiddleware {
-  constructor(private schema: ValidationSchemas) {}
+class ValidationMiddleware implements IValidationMiddleware {
+  constructor(protected schema: ValidationSchema) {}
 
   validateCreate: RequestHandler = async (req, _res, next) => {
     await this.schema.create.validateAsync(req.body);

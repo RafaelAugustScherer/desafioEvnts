@@ -3,7 +3,7 @@ import IController from '../interface/Controller';
 import { RequestHandler } from 'express-serve-static-core';
 
 class Controller<T> implements IController {
-  constructor(private service: Service<T>) {}
+  constructor(protected service: Service<T>) {}
 
   create: RequestHandler = async (req, res) => {
     const response = await this.service.create(req.body);
@@ -11,7 +11,7 @@ class Controller<T> implements IController {
   };
 
   read: RequestHandler = async (req, res) => {
-    const filter = req.params as unknown as Partial<T>;
+    const filter = req.query as unknown as Partial<T>;
     const response = await this.service.read(filter);
 
     return res.status(200).json(response);
