@@ -6,23 +6,22 @@ class Router {
   public router = ExpressRouter();
 
   constructor(
-    protected route: string,
     protected controller: Controller,
     protected middleware: ValidationMiddleware,
   ) {
-    this.router.route(`/${route}`)
+    this.router.route('/')
       .post(
         middleware.validateCreate,
         controller.create,
       );
 
-    this.router.route(`/${route}/search`)
+    this.router.route('/search')
       .get(
         middleware.validateRead,
         controller.read,
       );
 
-    this.router.route(`/${route}/:id`)
+    this.router.route('/:id')
       .get(
         middleware.validateReadOne,
         controller.readOne,

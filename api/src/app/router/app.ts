@@ -6,7 +6,7 @@ const appRouter = Router();
 
 const { router: restaurantRouter } = new RestaurantRouter();
 
-appRouter.use(restaurantRouter);
+appRouter.use('/restaurant', restaurantRouter);
 appRouter.use(errorMiddleware);
 
 export default appRouter;

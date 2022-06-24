@@ -27,7 +27,7 @@ class Service<T> implements IService<T> {
   };
 
   update = async (id: number | string, payload: Partial<T>): Promise<T> => {
-    const response = await this.model.findByIdAndUpdate(id, payload);
+    const response = await this.model.findByIdAndUpdate(id, payload, { new: true });
     if (!response) {
       throw ERRORS[this.entity].NOT_FOUND;
     }

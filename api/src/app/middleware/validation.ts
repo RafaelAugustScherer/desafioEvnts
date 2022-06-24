@@ -1,14 +1,8 @@
 import { RequestHandler } from 'express';
-import { ObjectSchema } from 'joi';
-import { ValidationMiddleware as IValidationMiddleware } from '../interface/Middleware';
-
-interface ValidationSchema {
-  create: ObjectSchema,
-  read: ObjectSchema,
-  readOne: ObjectSchema,
-  update: ObjectSchema,
-  delete: ObjectSchema,
-}
+import {
+  ValidationMiddleware as IValidationMiddleware,
+  ValidationSchema,
+} from '../interface/Middleware';
 
 class ValidationMiddleware implements IValidationMiddleware {
   constructor(protected schema: ValidationSchema) {}

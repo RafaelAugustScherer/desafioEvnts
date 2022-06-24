@@ -6,6 +6,7 @@ interface Controller {
   readOne: RequestHandler,
   update: RequestHandler,
   delete: RequestHandler,
+  addItem?: RequestHandler,
 }
 
 export default Controller;

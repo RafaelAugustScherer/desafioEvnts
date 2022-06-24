@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import { ObjectSchema } from 'joi';
 
 interface ValidationMiddleware {
     validateCreate: RequestHandler
@@ -8,6 +9,15 @@ interface ValidationMiddleware {
     validateDelete: RequestHandler
 }
 
+interface ValidationSchema {
+  create: ObjectSchema,
+  read: ObjectSchema,
+  readOne: ObjectSchema,
+  update: ObjectSchema,
+  delete: ObjectSchema,
+}
+
 export {
   ValidationMiddleware,
+  ValidationSchema,
 };

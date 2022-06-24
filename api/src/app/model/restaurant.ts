@@ -9,6 +9,10 @@ const restaurantSchema = new Schema({
     type: String,
     required: true,
   },
+  items: {
+    type: Array,
+    required: false,
+  },
 }, {
   versionKey: false,
 });
