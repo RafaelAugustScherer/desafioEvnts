@@ -16,11 +16,6 @@ const validateReadOne: RequestHandler = async (req, _res, next) => {
   return next();
 };
 
-const validateUpdate: RequestHandler = async (req, _res, next) => {
-  await RestaurantSchema.update.validateAsync({ ...req.params, ...req.body });
-  return next();
-};
-
 const validateRemove: RequestHandler = async (req, _res, next) => {
   await RestaurantSchema.remove.validateAsync(req.params);
   return next();
@@ -30,6 +25,5 @@ export default {
   validateCreate,
   validateRead,
   validateReadOne,
-  validateUpdate,
   validateRemove,
 };

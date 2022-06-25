@@ -21,13 +21,6 @@ const readOne: RequestHandler = async (req, res) => {
   return res.status(200).json(response);
 };
 
-const update: RequestHandler = async (req, res) => {
-  const { id } = req.params;
-  const response = await RestaurantService.update(id, req.body);
-  
-  return res.status(200).json(response);
-};
-
 const remove: RequestHandler = async (req, res) => {
   const { id } = req.params;
   await RestaurantService.remove(id);
@@ -39,6 +32,5 @@ export default {
   create,
   read,
   readOne,
-  update,
   remove,
 };

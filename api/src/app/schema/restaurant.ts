@@ -10,12 +10,6 @@ const read = Joi.object({
   type: Joi.string(),
 });
 
-const update = Joi.object({
-  id: Joi.string().hex().length(24),
-  name: Joi.string(),
-  type: Joi.string(),
-});
-
 const id = Joi.object({
   id: Joi.string().hex().length(24).required(),
 });
@@ -24,6 +18,5 @@ export default {
   create,
   read,
   readOne: id,
-  update,
   remove: id,
 };

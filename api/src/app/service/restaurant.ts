@@ -28,15 +28,6 @@ const readOne = async (id: number | string): Promise<Restaurant> => {
   return response;
 };
 
-const update = async (id: number | string, payload: Partial<Restaurant>): Promise<Restaurant> => {
-  const response = await RestaurantModel.findByIdAndUpdate(id, payload, { new: true });
-  if (!response) {
-    throw ERRORS.RESTAURANT.NOT_FOUND;
-  }
-
-  return response;
-};
-
 const remove = async (id: number | string): Promise<void> => {
   const response = await RestaurantModel.findByIdAndDelete(id);
   if (!response) {
@@ -48,6 +39,5 @@ export default {
   create,
   read,
   readOne,
-  update,
   remove,
 };

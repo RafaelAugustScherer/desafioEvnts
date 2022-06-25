@@ -24,10 +24,6 @@ restaurantRouter.route('/:id')
     RestaurantMiddleware.validateReadOne,
     RestaurantController.readOne,
   )
-  .put(
-    RestaurantMiddleware.validateUpdate,
-    RestaurantController.update,
-  )
   .delete(
     RestaurantMiddleware.validateRemove,
     RestaurantController.remove,
