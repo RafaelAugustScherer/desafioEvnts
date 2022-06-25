@@ -1,50 +1,53 @@
-import Service from '.';
-import { RestaurantService as IRestaurantService } from '../interface/Restaurant';
-import RestaurantModel, { Restaurant } from '../model/restaurant';
-import Item from '../interface/Item';
+import Restaurant from '../interface/Restaurant';
+import RestaurantModel from '../model/restaurant';
 import ERRORS from '../utilities/errors';
 
-class RestaurantService extends Service<Restaurant> implements IRestaurantService<Restaurant, Item> {
-  constructor(protected model = RestaurantModel) {
-    super('RESTAURANT', model);
-  }
-
-  create = async (payload: Restaurant) => {
-    const isAlreadyCreated = await this.model.findOne({
-      where: { name: payload.name },
-    });
+const create = async (payload: Restaurant): Promise<Restaurant> => {
+    const isAlreadyCreated = await RestaurantModel.findOne(
+      { name: payload.name },
+    );
 
     if (isAlreadyCreated) {
       throw ERRORS.RESTAURANT.ALREADY_EXISTS;
     }
 
-    const response = await this.model.create(payload);
+    const response = await RestaurantModel.create(payload);
     return response.toObject();
-  };
+};
 
-  addItem = async (
-    restaurantId: number | string,
-    payload: Item,
-  ): Promise<Restaurant> => {
-    const isAlreadyCreated = await this.model.findOne({
-      where: { items: { $elemMatch: { name: payload.name } } },
-    });
+const read = async (filter: Partial<Restaurant>): Promise<Restaurant[]> => (
+  RestaurantModel.find({ ...filter })
+);
 
-    if (isAlreadyCreated) {
-      throw ERRORS.RESTAURANT.ITEM.ALREADY_EXISTS;
-    }
+const readOne = async (id: number | string): Promise<Restaurant> => {
+  const response = await RestaurantModel.findById(id);
+  if (!response) {
+    throw ERRORS.RESTAURANT.NOT_FOUND;
+  }
 
-    const response = await this.model.findByIdAndUpdate(restaurantId,
-      { $push: { 'items': payload } },
-      { new: true },
-    );
+  return response;
+};
 
-    if (!response) {
-      throw ERRORS.RESTAURANT.NOT_FOUND;
-    }
+const update = async (id: number | string, payload: Partial<Restaurant>): Promise<Restaurant> => {
+  const response = await RestaurantModel.findByIdAndUpdate(id, payload, { new: true });
+  if (!response) {
+    throw ERRORS.RESTAURANT.NOT_FOUND;
+  }
 
-    return response;
-  };
-}
+  return response;
+};
 
-export default RestaurantService;
+const remove = async (id: number | string): Promise<void> => {
+  const response = await RestaurantModel.findByIdAndDelete(id);
+  if (!response) {
+    throw ERRORS.RESTAURANT.NOT_FOUND;
+  }
+};
+
+export default {
+  create,
+  read,
+  readOne,
+  update,
+  remove,
+};

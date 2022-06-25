@@ -1,4 +1,4 @@
-import { model, Schema, InferSchemaType } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 const restaurantSchema = new Schema({
   name: {
@@ -9,14 +9,8 @@ const restaurantSchema = new Schema({
     type: String,
     required: true,
   },
-  items: {
-    type: Array,
-    required: false,
-  },
 }, {
   versionKey: false,
 });
-
-export type Restaurant = InferSchemaType<typeof restaurantSchema>;
 
 export default model('restaurants', restaurantSchema);

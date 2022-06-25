@@ -1,19 +1,35 @@
 import { RequestHandler } from 'express';
-import { RestaurantMiddleware, RestaurantSchema as IRestaurantSchema } from '../interface/Restaurant';
 import RestaurantSchema from '../schema/restaurant';
-import ValidationMiddleware from './validation';
 
-class RestaurantValidationMiddleware extends ValidationMiddleware implements RestaurantMiddleware {
-  declare schema: IRestaurantSchema;
-  
-  constructor(schema = RestaurantSchema) {
-    super(schema);
-  }
+const validateCreate: RequestHandler = async (req, _res, next) => {
+  await RestaurantSchema.create.validateAsync(req.body);
+  return next();
+};
 
-  validateAddItem: RequestHandler = async (req, _res, next) => {
-    await this.schema.addItem.validateAsync({ ...req.params, ...req.body });
-    return next();
-  };
-}
+const validateRead: RequestHandler = async (req, _res, next) => {
+  await RestaurantSchema.read.validateAsync(req.params);
+  return next();
+};
 
-export default RestaurantValidationMiddleware;
+const validateReadOne: RequestHandler = async (req, _res, next) => {
+  await RestaurantSchema.readOne.validateAsync(req.params);
+  return next();
+};
+
+const validateUpdate: RequestHandler = async (req, _res, next) => {
+  await RestaurantSchema.update.validateAsync({ ...req.params, ...req.body });
+  return next();
+};
+
+const validateRemove: RequestHandler = async (req, _res, next) => {
+  await RestaurantSchema.remove.validateAsync(req.params);
+  return next();
+};
+
+export default {
+  validateCreate,
+  validateRead,
+  validateReadOne,
+  validateUpdate,
+  validateRemove,
+};

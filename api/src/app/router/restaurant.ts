@@ -1,31 +1,36 @@
-import { Router as ExpressRouter } from 'express';
-import Router from '.';
-import {
-  RestaurantController as IRestaurantController,
-  RestaurantMiddleware as IRestaurantMiddleware,
-} from '../interface/Restaurant';
+import { Router } from 'express';
+import RestaurantMiddleware from '../middleware/restaurant';
 import RestaurantController from '../controller/restaurant';
-import RestaurantValidationMiddleware from '../middleware/restaurant';
+import itemRouter from './item';
 
-class RestaurantRouter extends Router {
-  private itemRouter = ExpressRouter({ mergeParams: true });
-  declare controller: IRestaurantController;
-  declare middleware: IRestaurantMiddleware;
+const restaurantRouter = Router();
 
-  constructor(
-    controller = new RestaurantController(),
-    middleware = new RestaurantValidationMiddleware(),
-  ) {
-    super(controller, middleware);
+restaurantRouter.use('/:id/item', itemRouter);
 
-    this.itemRouter
-    .post('/',
-      this.middleware.validateAddItem,
-      this.controller.addItem,
-    );
-  
-    this.router.use('/:id/item', this.itemRouter);
-  }
-}
+restaurantRouter.route('/')
+  .post(
+    RestaurantMiddleware.validateCreate,
+    RestaurantController.create,
+  );
 
-export default RestaurantRouter;
+restaurantRouter.route('/search')
+  .get(
+    RestaurantMiddleware.validateRead,
+    RestaurantController.read,
+  );
+
+restaurantRouter.route('/:id')
+  .get(
+    RestaurantMiddleware.validateReadOne,
+    RestaurantController.readOne,
+  )
+  .put(
+    RestaurantMiddleware.validateUpdate,
+    RestaurantController.update,
+  )
+  .delete(
+    RestaurantMiddleware.validateRemove,
+    RestaurantController.remove,
+  );
+
+export default restaurantRouter;

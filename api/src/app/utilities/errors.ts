@@ -12,9 +12,10 @@ const ERRORS = {
   RESTAURANT: {
     NOT_FOUND: ErrorConstructor(404, 'Restaurant not found'),
     ALREADY_EXISTS: ErrorConstructor(403, 'Restaurant already exists'),
-    ITEM: {
-      ALREADY_EXISTS: ErrorConstructor(403, 'Item already exists'),
-    },
+  },
+  ITEM: {
+    NOT_FOUND: ErrorConstructor(404, 'Item not found'),
+    ALREADY_EXISTS: ErrorConstructor(403, 'Item already exists'),
   },
 };
 

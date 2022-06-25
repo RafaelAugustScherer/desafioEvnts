@@ -1,21 +1,44 @@
 import { RequestHandler } from 'express-serve-static-core';
-import Controller from '.';
-import { Restaurant } from '../model/restaurant';
+import Restaurant from '../interface/Restaurant';
 import RestaurantService from '../service/restaurant';
-import { RestaurantController as IRestaurantController } from '../interface/Restaurant';
 
-class RestaurantController extends Controller<Restaurant> implements IRestaurantController {
-  constructor(protected service = new RestaurantService()) {
-    super(service);
-  }
+const create: RequestHandler = async (req, res) => {
+  const response = await RestaurantService.create(req.body);
+  return res.status(201).json(response);
+};
 
-  addItem: RequestHandler = async (req, res) => {
-    const { id } = req.params;
-    const item = req.body;
+const read: RequestHandler = async (req, res) => {
+  const filter = req.query as unknown as Partial<Restaurant>;
+  const response = await RestaurantService.read(filter);
 
-    const response = await this.service.addItem(id, item);
-    return res.status(201).json(response);
-  };
-}
+  return res.status(200).json(response);
+};
 
-export default RestaurantController;
+const readOne: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+  const response = await RestaurantService.readOne(id);
+
+  return res.status(200).json(response);
+};
+
+const update: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+  const response = await RestaurantService.update(id, req.body);
+  
+  return res.status(200).json(response);
+};
+
+const remove: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+  await RestaurantService.remove(id);
+
+  return res.status(204).end();
+};
+
+export default {
+  create,
+  read,
+  readOne,
+  update,
+  remove,
+};

@@ -20,19 +20,10 @@ const id = Joi.object({
   id: Joi.string().hex().length(24).required(),
 });
 
-const addItem = Joi.object({
-  id: Joi.string().hex().length(24).required(),
-  name: Joi.string().required(),
-  description: Joi.string().required(),
-  type: Joi.string().required(),
-  price: Joi.number().positive().required(),
-});
-
 export default {
   create,
   read,
   readOne: id,
   update,
-  delete: id,
-  addItem,
+  remove: id,
 };
