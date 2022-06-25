@@ -1,11 +1,18 @@
-import { Types } from 'mongoose';
+import { FilterQuery, Types } from 'mongoose';
 import ItemModel from '../model/item';
 import Item from '../interface/Item';
+import RestaurantModel from '../model/restaurant';
 import ERRORS from '../utilities/errors';
 
 const { ObjectId } = Types;
 
 const create = async (restaurantId: number | string, payload: Item): Promise<Item> => {
+  const restaurantExists = await RestaurantModel.findById(restaurantId);
+  
+  if (!restaurantExists) {
+    throw ERRORS.RESTAURANT.NOT_FOUND;
+  }
+  
   const isAlreadyCreated = await ItemModel.findOne(
     { name: payload.name, restaurantId: new ObjectId(restaurantId) },
   );
@@ -20,10 +27,14 @@ const create = async (restaurantId: number | string, payload: Item): Promise<Ite
 
 const read = async (
   restaurantId: number | string,
-  filter?: Partial<Item>,
+  filter: Partial<Item>,
 ): Promise<Item[]> => {
-  const response = await ItemModel.find({ restaurantId: new ObjectId(restaurantId), ...filter });
+  const query: FilterQuery<Item> = { ...filter };
+  if (filter.name) {
+    query.name = { $regex: `^${filter.name}`};
+  }
 
+  const response = await ItemModel.find({ restaurantId: new ObjectId(restaurantId), ...query });
   return response as Item[];
 };
 

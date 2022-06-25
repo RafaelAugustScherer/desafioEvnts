@@ -8,15 +8,13 @@ const restaurantRouter = Router();
 restaurantRouter.use('/:id/item', itemRouter);
 
 restaurantRouter.route('/')
-  .post(
-    RestaurantMiddleware.validateCreate,
-    RestaurantController.create,
-  );
-
-restaurantRouter.route('/search')
   .get(
     RestaurantMiddleware.validateRead,
     RestaurantController.read,
+  )
+  .post(
+    RestaurantMiddleware.validateCreate,
+    RestaurantController.create,
   );
 
 restaurantRouter.route('/:id')
