@@ -9,6 +9,14 @@ const restaurantSchema = new Schema({
     type: String,
     required: true,
   },
+  city: {
+    type: String,
+    required: true,
+  },
+  state_ab: {
+    type: String,
+    required: true,
+  },
 }, {
   versionKey: false,
 });
