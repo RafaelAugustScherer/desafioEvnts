@@ -8,6 +8,20 @@ const create = Joi.object({
   price: Joi.number().positive().required(),
 });
 
+const read = Joi.object({
+  id: Joi.string().hex().length(24).required(),
+  type: Joi.string(),
+});
+
+const update = Joi.object({
+  id: Joi.string().hex().length(24).required(),
+  itemId: Joi.string().hex().length(24).required(),
+  name: Joi.string(),
+  description: Joi.string(),
+  type: Joi.string(),
+  price: Joi.number().positive(),
+});
+
 const remove = Joi.object({
   id: Joi.string().hex().length(24).required(),
   itemId: Joi.string().hex().length(24).required(),
@@ -15,5 +29,7 @@ const remove = Joi.object({
 
 export default {
   create,
+  read,
+  update,
   remove,
 };

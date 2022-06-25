@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express-serve-static-core';
-import Restaurant from '../interface/Restaurant';
 import RestaurantService from '../service/restaurant';
 
 const create: RequestHandler = async (req, res) => {
@@ -8,7 +7,7 @@ const create: RequestHandler = async (req, res) => {
 };
 
 const read: RequestHandler = async (req, res) => {
-  const filter = req.query as unknown as Partial<Restaurant>;
+  const filter = req.query;
   const response = await RestaurantService.read(filter);
 
   return res.status(200).json(response);
