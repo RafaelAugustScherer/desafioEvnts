@@ -1,0 +1,513 @@
+{
+	"info": {
+		"_postman_id": "4cea32f4-727e-43aa-96f9-9172a3dc452c",
+		"name": "desafioEvnts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11293941"
+	},
+	"item": [
+		{
+			"name": "Restaurant",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{JWT_KEY}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "authorization",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Bar do Zé\",\r\n    \"type\": \"Brasileira\",\r\n    \"city\": \"Barbacena\",\r\n    \"state_ab\": \"MG\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/restaurant",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant/62b75583f085e3d4f492f6c7",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant",
+								"62b75583f085e3d4f492f6c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant?name=Restaurante",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Restaurante"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant?type=Brasileira",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "Brasileira"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Item Name",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get All By Distance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant?lat=-21.19342&lng=-43.78443&distance=3",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "-21.19342"
+								},
+								{
+									"key": "lng",
+									"value": "-43.78443"
+								},
+								{
+									"key": "distance",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{JWT_KEY}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "authorization",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant/62b75583f085e3d4f492f6c7",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant",
+								"62b75583f085e3d4f492f6c7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Item",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant/62b61cfb17fc1b4245018806/item",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant",
+								"62b61cfb17fc1b4245018806",
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Name",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{JWT_KEY}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "authorization",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Queijo Minas na Tábua - 3 pessoas\",\r\n    \"description\": \"Delicioso queijo minas servido na tábua para 2 pessoas.\",\r\n    \"type\": \"Tábua\",\r\n    \"price\": 35\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/restaurant/62b7c3562c115aad7f520eb4/item",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant",
+								"62b7c3562c115aad7f520eb4",
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{JWT_KEY}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "authorization",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 40\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/restaurant/62b61cfb17fc1b4245018806/item/62b752b91c393b6b3d34e374",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant",
+								"62b61cfb17fc1b4245018806",
+								"item",
+								"62b752b91c393b6b3d34e374"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{JWT_KEY}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "authorization",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant/62b61cfb17fc1b4245018806/item/62b752b91c393b6b3d34e374",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant",
+								"62b61cfb17fc1b4245018806",
+								"item",
+								"62b752b91c393b6b3d34e374"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create Seller",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"zebirita@gmail.com\",\r\n    \"password\": \"$#zebirita#$\",\r\n    \"role\": \"seller\",\r\n    \"restaurantId\": \"62b75583f085e3d4f492f6c7\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"rafaelaugustscherer@gmail.com\",\r\n    \"password\": \"minhaSenha123\",\r\n    \"role\": \"customer\",\r\n    \"lat\": -29.58,\r\n    \"lng\": -51.08\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"rafaelaugustscherer@gmail.com\",\r\n    \"password\": \"minhaSenha123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/user/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "JWT_KEY",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InplYmlyaXRhQGdtYWlsLmNvbSIsImlhdCI6MTY1NjI3NDc2MiwiZXhwIjoxNjU2MzYxMTYyfQ.waqco8rT2kIQc4Wyf-ebDT3vsZLFQehP3FRWtOk3thU",
+			"type": "string"
+		}
+	]
+}
