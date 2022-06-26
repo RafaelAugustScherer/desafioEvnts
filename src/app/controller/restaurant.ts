@@ -22,7 +22,8 @@ const readOne: RequestHandler = async (req, res) => {
 
 const remove: RequestHandler = async (req, res) => {
   const { id } = req.params;
-  await RestaurantService.remove(id);
+  const { email } = res.locals;
+  await RestaurantService.remove(id, email);
 
   return res.status(204).end();
 };

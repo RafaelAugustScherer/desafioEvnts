@@ -2,6 +2,7 @@ import { FilterQuery } from 'mongoose';
 import Restaurant from '../interface/Restaurant';
 import RestaurantModel from '../model/restaurant';
 import ItemModel from '../model/item';
+import UserModel from '../model/user';
 import ERRORS from '../utilities/errors';
 
 interface RestaurantFilter {
@@ -12,7 +13,6 @@ const create = async (payload: Restaurant): Promise<Restaurant> => {
     const isAlreadyCreated = await RestaurantModel.findOne(
       { name: payload.name },
     );
-
     if (isAlreadyCreated) {
       throw ERRORS.RESTAURANT.ALREADY_EXISTS;
     }
@@ -55,11 +55,20 @@ const readOne = async (id: number | string): Promise<Restaurant> => {
   return response;
 };
 
-const remove = async (id: number | string): Promise<void> => {
-  const response = await RestaurantModel.findByIdAndDelete(id);
-  if (!response) {
+const remove = async (id: number | string, email: string): Promise<void> => {
+  const restaurant = await RestaurantModel.findById(id);
+  if (!restaurant) {
     throw ERRORS.RESTAURANT.NOT_FOUND;
   }
+  
+  const isUserValid = UserModel.findOne({
+    email, role: 'seller', restaurantId: restaurant.id,
+  });
+  if (!isUserValid) {
+    throw ERRORS.AUTH.INVALID_CREDENTIALS;
+  }
+  
+  await RestaurantModel.findByIdAndDelete(id);
 };
 
 export default {

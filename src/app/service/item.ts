@@ -1,22 +1,34 @@
 import { FilterQuery, Types } from 'mongoose';
 import ItemModel from '../model/item';
 import Item from '../interface/Item';
-import RestaurantModel from '../model/restaurant';
+import UserModel from '../model/user';
 import ERRORS from '../utilities/errors';
 
 const { ObjectId } = Types;
 
-const create = async (restaurantId: number | string, payload: Item): Promise<Item> => {
-  const restaurantExists = await RestaurantModel.findById(restaurantId);
-  
-  if (!restaurantExists) {
-    throw ERRORS.RESTAURANT.NOT_FOUND;
+const verifyRestaurantOwnership = async (
+  restaurantId: number | string,
+  email: string,
+) => {
+  const validUser = await UserModel.findOne({
+    email, role: 'seller', restaurantId: new ObjectId(restaurantId),
+  });
+
+  if (!validUser) {
+    throw ERRORS.AUTH.INVALID_CREDENTIALS;
   }
-  
+};
+
+const create = async (
+  payload: Item,
+  restaurantId: number | string,
+  email: string,
+): Promise<Item> => {
+  await verifyRestaurantOwnership(restaurantId, email);
+
   const isAlreadyCreated = await ItemModel.findOne(
     { name: payload.name, restaurantId: new ObjectId(restaurantId) },
   );
-
   if(isAlreadyCreated) {
     throw ERRORS.ITEM.ALREADY_EXISTS;
   }
@@ -26,8 +38,8 @@ const create = async (restaurantId: number | string, payload: Item): Promise<Ite
 };
 
 const read = async (
-  restaurantId: number | string,
   filter: Partial<Item>,
+  restaurantId: number | string,
 ): Promise<Item[]> => {
   const query: FilterQuery<Item> = { ...filter };
   if (filter.name) {
@@ -39,13 +51,15 @@ const read = async (
 };
 
 const update = async (
+  payload: Partial<Item>,
   restaurantId: number | string,
   itemId: number | string,
-  payload: Partial<Item>,
+  email: string,
 ): Promise<Item> => {
+  await verifyRestaurantOwnership(restaurantId, email);
 
   const response = await ItemModel.findOneAndUpdate(
-    { _id: new ObjectId(itemId), restaurantId: new ObjectId(restaurantId) },
+    { _id: new ObjectId(itemId) },
     payload,
     { new: true },
   );
@@ -56,11 +70,18 @@ const update = async (
   return response.toObject();
 };
 
-const remove = async (itemId: number | string): Promise<void> => {
-  const response = await ItemModel.findByIdAndDelete(itemId);
-  if (!response) {
+const remove = async (
+  itemId: number | string,
+  email: string,
+): Promise<void> => {
+  const item = await ItemModel.findById(itemId);
+  if (!item) {
     throw ERRORS.ITEM.NOT_FOUND;
   }
+
+  await verifyRestaurantOwnership(item.restaurantId as string, email);
+
+  await ItemModel.findByIdAndDelete(itemId);
 };
 
 export default {

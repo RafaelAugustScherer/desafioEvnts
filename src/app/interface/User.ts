@@ -1,9 +1,9 @@
-type UserType = 'customer' | 'seller';
+type UserRole = 'customer' | 'seller';
 
 interface User {
   email: string,
   password: string,
-  role: UserType,
+  role: UserRole,
   restaurantId?: string,
   lat?: number,
   lng?: number,
