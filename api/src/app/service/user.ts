@@ -1,6 +1,7 @@
 import User from '../interface/User';
 import RestaurantModel from '../model/restaurant';
 import UserModel from '../model/user';
+import UserUtilities from '../utilities/user';
 import ERRORS from '../utilities/errors';
 
 const create = async (payload: User): Promise<User> => {
@@ -23,7 +24,10 @@ const create = async (payload: User): Promise<User> => {
     }
   }
 
-  const response = await UserModel.create(payload);
+  const response = await UserModel.create({
+    ...payload,
+    password: UserUtilities.hashPassword(payload.password) },
+  );
   return response.toObject();
 };
 
