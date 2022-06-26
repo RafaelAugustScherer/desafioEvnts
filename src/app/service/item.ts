@@ -7,7 +7,7 @@ import ERRORS from '../utilities/errors';
 const { ObjectId } = Types;
 
 const verifyRestaurantOwnership = async (
-  restaurantId: number | string,
+  restaurantId: string,
   email: string,
 ) => {
   const validUser = await UserModel.findOne({
@@ -21,7 +21,7 @@ const verifyRestaurantOwnership = async (
 
 const create = async (
   payload: Item,
-  restaurantId: number | string,
+  restaurantId: string,
   email: string,
 ): Promise<Item> => {
   await verifyRestaurantOwnership(restaurantId, email);
@@ -39,7 +39,7 @@ const create = async (
 
 const read = async (
   filter: Partial<Item>,
-  restaurantId: number | string,
+  restaurantId: string,
 ): Promise<Item[]> => {
   const query: FilterQuery<Item> = { ...filter };
   if (filter.name) {
@@ -52,8 +52,8 @@ const read = async (
 
 const update = async (
   payload: Partial<Item>,
-  restaurantId: number | string,
-  itemId: number | string,
+  restaurantId: string,
+  itemId: string,
   email: string,
 ): Promise<Item> => {
   await verifyRestaurantOwnership(restaurantId, email);
@@ -71,7 +71,7 @@ const update = async (
 };
 
 const remove = async (
-  itemId: number | string,
+  itemId: string,
   email: string,
 ): Promise<void> => {
   const item = await ItemModel.findById(itemId);

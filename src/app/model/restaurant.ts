@@ -17,6 +17,14 @@ const restaurantSchema = new Schema({
     type: String,
     required: true,
   },
+  lat: {
+    type: Number,
+    required: false,
+  },
+  lng: {
+    type: Number,
+    required: false,
+  },
 }, {
   versionKey: false,
 });

@@ -1,9 +1,10 @@
 interface Item {
+  id?: string,
   name: string,
   description: string,
   type: string,
   price: number,
-  restaurantId?: number | string,
+  restaurantId?: string,
 }
 
 export default Item;
