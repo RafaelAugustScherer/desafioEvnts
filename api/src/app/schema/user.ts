@@ -9,6 +9,12 @@ const create = Joi.object({
   lng: Joi.number(),
 });
 
+const login = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+});
+
 export default {
   create,
+  login,
 };

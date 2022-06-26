@@ -31,6 +31,18 @@ const create = async (payload: User): Promise<User> => {
   return response.toObject();
 };
 
+const login = async (payload: Partial<User>): Promise<void> => {
+  const response = await UserModel.findOne({
+    email: payload.email,
+    password: UserUtilities.hashPassword(payload.password || ''),
+  });
+
+  if (!response) {
+    throw ERRORS.AUTH.INVALID_CREDENTIALS;
+  }
+};
+
 export default {
   create,
+  login,
 };
