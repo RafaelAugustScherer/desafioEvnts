@@ -9,14 +9,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: Setup Node
-      uses: actions/checkout@v3
       uses: actions/setup-node@v3
       with:
         node-version: '17.9'
-      run: npm ci
     - name: Run Tests
-      run: npm run test
+        run: npm ci
+        run: npm run test
     env:
       MONGODB_USERNAME: ${{secrets.MONGODB_USERNAME}}
       MONGODB_PASSWORD: ${{secrets.MONGODB_PASSWORD}}
