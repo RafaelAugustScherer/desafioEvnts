@@ -6,6 +6,7 @@
   "scripts": {
     "build": "npx -y tsc",
     "dev": "ts-node-dev src/server --watch src/app",
+    "dev:docker": "docker build -t uaifood-api-dev --file Dockerfile.dev . && docker run -it -p 3001:3001 -v `pwd`:/app uaifood-api-dev",
     "prestart": "npm run build",
     "start": "node .",
     "start:docker": "docker build -t uaifood-api . && docker run -it -p 3001:3001 uaifood-api",
