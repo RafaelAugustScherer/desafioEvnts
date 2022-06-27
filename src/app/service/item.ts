@@ -71,15 +71,16 @@ const update = async (
 };
 
 const remove = async (
+  restaurantId: string,
   itemId: string,
   email: string,
 ): Promise<void> => {
+  await verifyRestaurantOwnership(restaurantId, email);
+
   const item = await ItemModel.findById(itemId);
   if (!item) {
     throw ERRORS.ITEM.NOT_FOUND;
   }
-
-  await verifyRestaurantOwnership(item.restaurantId as string, email);
 
   await ItemModel.findByIdAndDelete(itemId);
 };

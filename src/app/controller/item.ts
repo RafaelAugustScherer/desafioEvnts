@@ -26,10 +26,10 @@ const update: RequestHandler = async (req, res) => {
 };
 
 const remove: RequestHandler = async (req, res) => {
-  const { itemId } = req.params;
+  const { id, itemId } = req.params;
   const { email } = res.locals;
 
-  await ItemService.remove(itemId, email);
+  await ItemService.remove(id, itemId, email);
 
   return res.status(204).end();
 };
