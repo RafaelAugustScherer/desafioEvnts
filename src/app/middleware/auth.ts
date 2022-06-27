@@ -9,8 +9,12 @@ const validateToken: RequestHandler = async (req, res, next) => {
     throw ERRORS.AUTH.TOKEN_NOT_FOUND;
   }
   
-  const { email } = JWT.decode(token) as JwtPayload;
-  res.locals.email = email;
+  try {
+    const { email } = JWT.decode(token) as JwtPayload;
+    res.locals.email = email;
+  } catch (e) {
+    throw ERRORS.AUTH.INVALID_TOKEN;
+  }
 
   return next();
 };
