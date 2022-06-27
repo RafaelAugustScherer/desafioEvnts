@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import App from '../app';
-import appRouter from '../app/router/app';
+import appRequester from './utilities/appRequester';
 import RestaurantModel from '../app/model/restaurant';
 import UserModel from '../app/model/user';
 import RestaurantMocks from './mocks/restaurant';
@@ -10,17 +9,10 @@ import UserMocks from './mocks/user';
 chai.use(chaiHttp);
 const { expect } = chai;
 
-const { app } = new App(
-  appRouter,
-  'mongodb://localhost:3002',
-  { dbName: 'desafio-evnts', autoIndex: true },
-);
-
 const { fakeId, validRestaurant, validRestaurantTwo, invalidRestaurant } = RestaurantMocks;
 const { fakeToken, validSeller, validLoginUser, validSellerTwo, validLoginSellerTwo  } = UserMocks;
 
 describe('Teste das rotas de restaurante', () => {
-  const requester = chai.request(app).keepOpen();
   let token: string;
 
   const emptyDatabase = async () => {
@@ -29,14 +21,14 @@ describe('Teste das rotas de restaurante', () => {
   };
 
   const createUserAndReturnToken = async (user = validSeller, loginUser = validLoginUser) => {
-    await requester.post('/user').send(user);
-    const loginResponse = await requester.post('/user/login').send(loginUser);
+    await appRequester.post('/user').send(user);
+    const loginResponse = await appRequester.post('/user/login').send(loginUser);
 
     return loginResponse.body.token;
   };
 
   const createRestaurant = async (restaurant = validRestaurant, tkn = token) => {
-    const response = await requester.post('/restaurant').set('Authorization', tkn).send(restaurant);
+    const response = await appRequester.post('/restaurant').set('Authorization', tkn).send(restaurant);
     return response.body;
   };
 
@@ -50,7 +42,7 @@ describe('Teste das rotas de restaurante', () => {
 
   describe('Quando é feita a criação de um restaurante', () => {
     it('Espera que o restaurante seja criado com sucesso', async () => {
-      const response = await requester.post('/restaurant').set('Authorization', token).send(validRestaurant);
+      const response = await appRequester.post('/restaurant').set('Authorization', token).send(validRestaurant);
 
       expect(response).to.have.status(201);
       expect(response.body).to.have.keys(['_id', ...Object.keys(validRestaurant)]);
@@ -60,20 +52,20 @@ describe('Teste das rotas de restaurante', () => {
     });
 
     it('Espera que um restaurante inválido não possa ser criado', async () => {
-      const response = await requester.post('/restaurant').set('Authorization', token).send(invalidRestaurant);
+      const response = await appRequester.post('/restaurant').set('Authorization', token).send(invalidRestaurant);
       expect(response).to.have.status(400);
     });
 
     it('Espera que o mesmo restaurante não possa ser criado duas vezes', async () => {
-      await requester.post('/restaurant').set('Authorization', token).send(validRestaurant);
-      const response = await requester.post('/restaurant').set('Authorization', token).send(validRestaurant);
+      await appRequester.post('/restaurant').set('Authorization', token).send(validRestaurant);
+      const response = await appRequester.post('/restaurant').set('Authorization', token).send(validRestaurant);
 
       expect(response).to.have.status(403);
       expect(response).not.to.have.key('_id');
     });
 
     it('Espera que um restaurante não possa ser criado com usuário inválido', async () => {
-      const response = await requester.post('/restaurant').set('Authorization', fakeToken).send(validRestaurant);
+      const response = await appRequester.post('/restaurant').set('Authorization', fakeToken).send(validRestaurant);
 
       expect(response).to.have.status(403);
       expect(response).not.to.have.key('_id');
@@ -84,14 +76,14 @@ describe('Teste das rotas de restaurante', () => {
     it('Espera que os restaurantes cadastrados sejam listados', async () => {
       const restaurant = await createRestaurant();
 
-      const response = await requester.get('/restaurant');
+      const response = await appRequester.get('/restaurant');
 
       expect(response).to.have.status(200);
       expect(response.body).to.be.deep.equal([restaurant]);
     });
 
     it('Espera que seja retornado um array vazio caso não tenham restaurantes cadastrados', async () => {
-      const response = await requester.get('/restaurant');
+      const response = await appRequester.get('/restaurant');
 
       expect(response).to.have.status(200);
       expect(response.body).to.be.deep.equal([]);
@@ -102,7 +94,7 @@ describe('Teste das rotas de restaurante', () => {
       const restaurant = await createRestaurant();
       await createRestaurant(validRestaurantTwo, secondSellerToken);
 
-      const response = await requester.get('/restaurant?name=Zé');
+      const response = await appRequester.get('/restaurant?name=Zé');
 
       expect(response).to.have.status(200);
       expect(response.body).to.be.deep.equal([restaurant]);
@@ -113,7 +105,7 @@ describe('Teste das rotas de restaurante', () => {
       const restaurant = await createRestaurant();
       const restaurantTwo = await createRestaurant(validRestaurantTwo, secondSellerToken);
 
-      const response = await requester.get('/restaurant?type=Brasileira');
+      const response = await appRequester.get('/restaurant?type=Brasileira');
 
       expect(response).to.have.status(200);
       expect(response.body).to.be.deep.equal([restaurant, restaurantTwo]);
@@ -124,7 +116,7 @@ describe('Teste das rotas de restaurante', () => {
       const restaurant = await createRestaurant();
       await createRestaurant(validRestaurantTwo, secondSellerToken);
 
-      const response = await requester.get('/restaurant?lat=-21.19342&lng=-43.78443&distance=3');
+      const response = await appRequester.get('/restaurant?lat=-21.19342&lng=-43.78443&distance=3');
 
       expect(response).to.have.status(200);
       expect(response.body).to.be.deep.equal([restaurant]);
@@ -135,14 +127,14 @@ describe('Teste das rotas de restaurante', () => {
     it('Espera encontrar o restaurante criado com sucesso', async () => {
       const restaurant = await createRestaurant();
 
-      const response = await requester.get(`/restaurant/${restaurant._id}`);
+      const response = await appRequester.get(`/restaurant/${restaurant._id}`);
       
       expect(response).to.have.status(200);
       expect(response.body).to.be.deep.equal(restaurant);
     });
 
     it('Espera que um erro \'não encontrado\' seja lançado caso o restaurante não exista', async () => {
-      const response = await requester.get(`/restaurant/${fakeId}`);
+      const response = await appRequester.get(`/restaurant/${fakeId}`);
       
       expect(response).to.have.status(404);
     });
@@ -152,7 +144,7 @@ describe('Teste das rotas de restaurante', () => {
     it('Espera que o restaurante seja removido', async () => {
       const restaurant = await createRestaurant();
       
-      const response = await requester.delete(`/restaurant/${restaurant._id}`).set('Authorization', token);
+      const response = await appRequester.delete(`/restaurant/${restaurant._id}`).set('Authorization', token);
       
       expect(response).to.have.status(204);
       

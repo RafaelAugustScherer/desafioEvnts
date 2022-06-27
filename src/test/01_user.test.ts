@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import App from '../app';
-import appRouter from '../app/router/app';
+import appRequester from './utilities/appRequester';
 import UserModel from '../app/model/user';
 import RestaurantModel from '../app/model/restaurant';
 import UserMocks from './mocks/user';
@@ -9,17 +8,9 @@ import UserMocks from './mocks/user';
 chai.use(chaiHttp);
 const { expect } = chai;
 
-const { app } = new App(
-  appRouter,
-  'mongodb://localhost:3002',
-  { dbName: 'desafio-evnts', autoIndex: true },
-);
-
 const { validUser, invalidUser, validSeller, validLoginUser } = UserMocks;
 
 describe('Teste das rotas de usuário', () => {
-  const requester = chai.request(app).keepOpen();
-
   const emptyDatabase = async () => {
     await UserModel.deleteMany({});
     await RestaurantModel.deleteMany({});
@@ -31,7 +22,7 @@ describe('Teste das rotas de usuário', () => {
 
   describe('Quando é feita a criação de usuário', () => {
     it('Espera que o usuário seja criado com sucesso', async () => {
-      const response = await requester.post('/user').send(validUser);
+      const response = await appRequester.post('/user').send(validUser);
       expect(response).to.have.status(201);
       expect(response.body).to.have.keys(['_id', 'email', 'role', 'lat', 'lng']);
   
@@ -40,19 +31,19 @@ describe('Teste das rotas de usuário', () => {
     });
   
     it('Espera que um vendedor seja criado com sucesso', async () => {
-      const response = await requester.post('/user').send(validSeller);
+      const response = await appRequester.post('/user').send(validSeller);
       expect(response).to.have.status(201);
       expect(response.body).to.have.keys(['_id', 'email', 'role', 'lat', 'lng']);
     });
   
     it('Espera que um usuário inválido não possa ser criado', async () => {
-      const response = await requester.post('/user').send(invalidUser);
+      const response = await appRequester.post('/user').send(invalidUser);
       expect(response).to.have.status(400);
     });
   
     it('Espera que o mesmo usuário não possa ser criado duas vezes', async () => {
-      await requester.post('/user').send(validUser);
-      const response = await requester.post('/user').send(validUser);
+      await appRequester.post('/user').send(validUser);
+      const response = await appRequester.post('/user').send(validUser);
   
       expect(response).to.have.status(403);
       expect(response).not.to.have.key('_id');
@@ -61,15 +52,15 @@ describe('Teste das rotas de usuário', () => {
 
   describe('Quando é feito o login', async () => {
     it('Espera que um usuário possa logar com sucesso e retorne um token', async () => {
-      await requester.post('/user').send(validUser);
-      const response = await requester.post('/user/login').send(validLoginUser);
+      await appRequester.post('/user').send(validUser);
+      const response = await appRequester.post('/user/login').send(validLoginUser);
 
       expect(response).to.have.status(200);
       expect(response.body).to.have.key('token');
     });
 
     it('Espera que um usuário inválido não possa fazer login', async () => {
-      const response = await requester.post('/user/login').send(validLoginUser);
+      const response = await appRequester.post('/user/login').send(validLoginUser);
 
       expect(response).to.have.status(403);
       expect(response.body).not.to.have.key('token');
