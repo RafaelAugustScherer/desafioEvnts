@@ -18,4 +18,7 @@ jobs:
           heroku_email: "rafaelaugustscherer@gmail.com"
           usedocker: true
           stack: container
-          env_file: "../../.env"
+        env:
+          HD_MONGODB_USERNAME: ${{secrets.MONGODB_USERNAME}}
+          HD_MONGODB_PASSWORD: ${{secrets.MONGODB_PASSWORD}}
+          HD_JWT_SECRET: ${{secrets.JWT_SECRET}}
