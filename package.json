@@ -6,13 +6,14 @@
   "scripts": {
     "build": "npx -y tsc",
     "dev": "ts-node-dev src/server --watch src/app",
-    "dev:docker": "docker build -t uaifood-api-dev --file Dockerfile.dev . && docker run -it -p 3001:3001 -v `pwd`:/app uaifood-api-dev",
+    "dev:docker": "docker-compose -f ./docker/docker-compose.dev.yml up --build",
     "prestart": "npm run build",
-    "start": "node .",
-    "start:docker": "docker build -t uaifood-api . && docker run -it -p 3001:3001 uaifood-api",
-    "pretest": "cd src/test && docker-compose down && docker-compose up -d",
+    "start": "NODE_ENV=production node .",
+    "start:database": "",
+    "start:docker": "docker build -t uaifood-api -f ./docker/Dockerfile . && docker run -it -p 3001:3001 --name uaifood-api-prod --rm uaifood-api",
+    "pretest": "docker-compose -f ./docker/docker-compose.test.yml down && docker-compose -f ./docker/docker-compose.test.yml up -d",
     "test": "mocha -r ts-node/register -r mocha-suppress-logs src/test/*.test.ts --exit",
-    "posttest": "cd src/test && docker-compose down"
+    "posttest": "docker-compose -f ./docker/docker-compose.test.yml down"
   },
   "keywords": [],
   "author": "",

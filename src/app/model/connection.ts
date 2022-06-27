@@ -3,16 +3,23 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const {
-  MONGODB_URI,
-  MONGODB_DATABASE,
   MONGODB_USERNAME,
   MONGODB_PASSWORD,
+  NODE_ENV,
 } = process.env;
 
-const uri = MONGODB_URI
-  || `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluster0.gfw2a.mongodb.net/?retryWrites=true&w=majority`;
+let uri: string;
 
-const dbName = MONGODB_DATABASE || 'desafio-evnts';
+if (NODE_ENV === 'production') {
+  uri = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluster0.gfw2a.mongodb.net/?retryWrites=true&w=majority`;
+} else if (NODE_ENV === 'docker-development') {
+  uri = 'mongodb://database:27017';
+} else {
+  uri = 'mongodb://localhost:3002';
+}
+console.log(uri);
+
+const dbName = 'desafio-evnts';
 
 const options: ConnectOptions = {
   dbName,

@@ -1,0 +1,19 @@
+version: '3.6'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3001:3001
+    volumes:
+      - ../:/app
+    links:
+      - database
+    depends_on:
+      - database
+    environment:
+      - NODE_ENV=docker-development
+  database:
+    image: mongo:latest
+    restart: always
