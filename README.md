@@ -15,7 +15,7 @@ Dentre as funcionalidades está a criação de usuários, vendedores, restaurant
 
 - O banco de dados não relacional (NoSQL) MongoDB está hospedado no [MongoDB Atlas](https://www.mongodb.com/atlas/database)
 
-- **Link da aplicação em funcionamento: https://uaifood-api.herokuapp.com/**
+- **Link da aplicação em funcionamento: https://uaifood-back.herokuapp.com/**
 
 ---
 ## Como rodar o projeto
