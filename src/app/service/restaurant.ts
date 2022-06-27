@@ -66,10 +66,10 @@ const read = async (
 ): Promise<Restaurant[]> => {
   const query: FilterQuery<Restaurant> = {};
   if (filter.name) {
-    query.name = { $regex: `^${filter.name}`};
+    query.name = { $regex: filter.name };
   }
   if (filter.itemName) {
-    const items = await ItemModel.find({ name: { $regex: `^${filter.itemName}` } });
+    const items = await ItemModel.find({ name: { $regex: filter.itemName } });
     if (!items.length) return [];
 
     const restaurantsIdsByItemName = [...new Set(

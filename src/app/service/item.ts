@@ -43,7 +43,7 @@ const read = async (
 ): Promise<Item[]> => {
   const query: FilterQuery<Item> = { ...filter };
   if (filter.name) {
-    query.name = { $regex: `^${filter.name}`};
+    query.name = { $regex: filter.name };
   }
 
   const response = await ItemModel.find({ restaurantId: new ObjectId(restaurantId), ...query });
