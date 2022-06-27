@@ -2,7 +2,9 @@ import { RequestHandler } from 'express-serve-static-core';
 import RestaurantService from '../service/restaurant';
 
 const create: RequestHandler = async (req, res) => {
-  const response = await RestaurantService.create(req.body);
+  const { email } = res.locals;
+
+  const response = await RestaurantService.create(req.body, email);
   return res.status(201).json(response);
 };
 

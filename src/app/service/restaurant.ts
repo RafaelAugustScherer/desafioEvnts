@@ -37,7 +37,7 @@ const findRestaurantsByDistance = async (
   return restaurantsWithinDistance;
 };
 
-const create = async (payload: Restaurant): Promise<Restaurant> => {
+const create = async (payload: Restaurant, email: string): Promise<Restaurant> => {
     const isAlreadyCreated = await RestaurantModel.findOne(
       { name: payload.name },
     );
@@ -45,7 +45,19 @@ const create = async (payload: Restaurant): Promise<Restaurant> => {
       throw ERRORS.RESTAURANT.ALREADY_EXISTS;
     }
 
+    const userExists = UserModel.findOne({ email, role: 'seller' });
+    if (!userExists) {
+      throw ERRORS.USER.NOT_FOUND;
+    }
+
+    const userAlreadyOwnsARestaurant = await UserModel.findOne({ email, restaurantId: { $exists: true } });
+    if (userAlreadyOwnsARestaurant) {
+      throw ERRORS.USER.ALREADY_OWNS_A_RESTAURANT;
+    }
+
     const response = await RestaurantModel.create(payload);
+    await UserModel.updateOne({ email }, { restaurantId: response.id });
+
     return response.toObject();
 };
 

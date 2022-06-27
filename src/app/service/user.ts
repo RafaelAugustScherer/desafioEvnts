@@ -1,5 +1,4 @@
 import User from '../interface/User';
-import RestaurantModel from '../model/restaurant';
 import UserModel from '../model/user';
 import UserUtilities from '../utilities/user';
 import ERRORS from '../utilities/errors';
@@ -10,14 +9,6 @@ const create = async (payload: User): Promise<Partial<User>> => {
   );
   if (isAlreadyCreated) {
     throw ERRORS.USER.ALREADY_EXISTS;
-  }
-
-  if (payload.restaurantId) {
-    const restaurantExists = await RestaurantModel.findById(payload.restaurantId);
-
-    if (!restaurantExists) {
-      throw ERRORS.RESTAURANT.NOT_FOUND;
-    }
   }
 
   const response = await UserModel.create({
