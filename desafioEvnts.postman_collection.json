@@ -12,31 +12,11 @@
 				{
 					"name": "Create",
 					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{JWT_KEY}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "authorization",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Bar do Zé\",\r\n    \"type\": \"Brasileira\",\r\n    \"city\": \"Barbacena\",\r\n    \"state_ab\": \"MG\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Bar do Zé\",\r\n    \"type\": \"Brasileira\",\r\n    \"city\": \"Barbacena\",\r\n    \"state_ab\": \"MG\",\r\n    \"lat\": -21.21,\r\n    \"lng\": -43.77\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -69,6 +49,13 @@
 							"port": "3001",
 							"path": [
 								"restaurant"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -99,7 +86,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3001/restaurant?name=Restaurante",
+							"raw": "localhost:3001/restaurant?name=Zé",
 							"host": [
 								"localhost"
 							],
@@ -110,7 +97,7 @@
 							"query": [
 								{
 									"key": "name",
-									"value": "Restaurante"
+									"value": "Zé"
 								}
 							]
 						}
@@ -145,7 +132,23 @@
 					"name": "Get By Item Name",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant?itemName=strogonoff",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant"
+							],
+							"query": [
+								{
+									"key": "itemName",
+									"value": "strogonoff"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -184,26 +187,6 @@
 				{
 					"name": "Remove",
 					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{JWT_KEY}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "authorization",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -249,38 +232,36 @@
 					"name": "Get By Name",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/restaurant/62b61cfb17fc1b4245018806/item?name=Queijo",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"restaurant",
+								"62b61cfb17fc1b4245018806",
+								"item"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Queijo"
+								}
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Create",
 					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{JWT_KEY}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "authorization",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Queijo Minas na Tábua - 3 pessoas\",\r\n    \"description\": \"Delicioso queijo minas servido na tábua para 2 pessoas.\",\r\n    \"type\": \"Tábua\",\r\n    \"price\": 35\r\n}",
+							"raw": "{\r\n    \"name\": \"Queijo Minas na Tábua - 2 pessoas\",\r\n    \"description\": \"Delicioso queijo minas servido na tábua para 2 pessoas.\",\r\n    \"type\": \"Tábua\",\r\n    \"price\": 35\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -305,26 +286,6 @@
 				{
 					"name": "Update",
 					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{JWT_KEY}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "authorization",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
@@ -355,26 +316,6 @@
 				{
 					"name": "Remove",
 					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "{{JWT_KEY}}",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "authorization",
-									"type": "string"
-								},
-								{
-									"key": "in",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -405,7 +346,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"zebirita@gmail.com\",\r\n    \"password\": \"$#zebirita#$\",\r\n    \"role\": \"seller\",\r\n    \"restaurantId\": \"62b75583f085e3d4f492f6c7\"\r\n}",
+							"raw": "{\r\n    \"email\": \"zebirita@gmail.com\",\r\n    \"password\": \"$#zebirita#$\",\r\n    \"role\": \"seller\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -432,7 +373,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rafaelaugustscherer@gmail.com\",\r\n    \"password\": \"minhaSenha123\",\r\n    \"role\": \"customer\",\r\n    \"lat\": -29.58,\r\n    \"lng\": -51.08\r\n}",
+							"raw": "{\r\n    \"email\": \"rafaelaugustscherer3@gmail.com\",\r\n    \"password\": \"minhaSenha123\",\r\n    \"role\": \"customer\",\r\n    \"lat\": -29.58,\r\n    \"lng\": -51.08\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -459,7 +400,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rafaelaugustscherer@gmail.com\",\r\n    \"password\": \"minhaSenha123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"zebirita@gmail.com\",\r\n    \"password\": \"$#zebirita#$\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -483,6 +424,21 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "authorization",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InplYmlyaXRhQGdtYWlsLmNvbSIsImlhdCI6MTY1NjI3NDc2MiwiZXhwIjoxNjU2MzYxMTYyfQ.waqco8rT2kIQc4Wyf-ebDT3vsZLFQehP3FRWtOk3thU",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -507,7 +463,8 @@
 		{
 			"key": "JWT_KEY",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InplYmlyaXRhQGdtYWlsLmNvbSIsImlhdCI6MTY1NjI3NDc2MiwiZXhwIjoxNjU2MzYxMTYyfQ.waqco8rT2kIQc4Wyf-ebDT3vsZLFQehP3FRWtOk3thU",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		}
 	]
 }
