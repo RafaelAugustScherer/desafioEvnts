@@ -8,6 +8,7 @@
     "dev": "ts-node-dev src/server --watch src/app",
     "prestart": "npm run build",
     "start": "node .",
+    "start:docker": "docker build -t uaifood-api . && docker run -it -p 3001:3001 uaifood-api",
     "pretest": "cd src/test && docker-compose down && docker-compose up -d",
     "test": "mocha -r ts-node/register -r mocha-suppress-logs src/test/*.test.ts --exit",
     "posttest": "cd src/test && docker-compose down"
