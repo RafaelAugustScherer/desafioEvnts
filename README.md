@@ -49,8 +49,10 @@ Dentre as funcionalidades está a criação de usuários, vendedores, restaurant
 
   ## Inicializar a aplicação ▶️
   
-  - Rode o comando `npm run dev` para inicializar em modo de desenvolvimento;
-  - Rode o comando `npm start` para inicializar em modo de produção;
+  - Rode o comando `npm run dev` para inicializar em modo de desenvolvimento **(banco de dados isolado)**
+    - Você precisa de um banco de dados MongoDB rodando em `localhost:3002` para que esse comando funcione
+    - Verifique a [Sessão de Docker](#inicializar-a-aplica%C3%A7%C3%A3o-%EF%B8%8F-1) para uma maneira mais simples de executar esse comando.
+  - Rode o comando `npm start` para inicializar em modo de produção **(banco de dados da aplicação)**
 
   ## Acessar a aplicação 🍕
   
@@ -84,8 +86,8 @@ Dentre as funcionalidades está a criação de usuários, vendedores, restaurant
 
   ## Inicializar a aplicação ▶️
   
-  - Rode o comando `npm run dev:docker` para inicializar em modo de desenvolvimento;
-  - Rode o comando `npm run start:docker` para inicializar em modo de produção;
+  - Rode o comando `npm run dev:docker` para inicializar em modo de desenvolvimento **(banco de dados isolado)**
+  - Rode o comando `npm run start:docker` para inicializar em modo de produção **(banco de dados da aplicação)**
 
   ## Acessar a aplicação 🍕
   
@@ -95,17 +97,53 @@ Dentre as funcionalidades está a criação de usuários, vendedores, restaurant
 ---
 </details>
 
+## Como Testar a aplicação
+
+### Requisitos 📝
+  - [Node.js](https://nodejs.org/)
+  - [Docker](https://www.docker.com/get-started/)
+  
+### Setup 🔧
+
+Execute o comando `npm install` para instalar as dependências do projeto.
+  
+### Rodando os testes ▶️
+
+Rode o comando `npm run test` e veja a mágica acontecer! Os testes executam em um banco de dados isolado, por isso não é necessária nenhuma configuração adicional.
+
 ## Tecnologias e Bibliotecas Utilizadas
 
   - <img src="https://cdn.iconscout.com/icon/free/png-256/node-js-1174925.png" alt="Node.js Logo" width="15"/> Node.js
     - Typescript
+    - ESLint
     - Express
     - Mongoose
     - Mocha
     - Chai + chaiHttp
+    - jsonwebtoken + md5
   - <img src="https://www.mongodb.com/assets/images/global/favicon.ico" alt="MongoDB Logo" width="15"/> MongoDB
   - <img src="https://www.docker.com/favicon.ico" alt="Docker Logo" width="15"/> Docker
 
+### Node.js <img src="https://cdn.iconscout.com/icon/free/png-256/node-js-1174925.png" alt="Node.js Logo" width="20"/>
+
+O Node.js foi escolhido porque promove alta compatibilidade e bibliotecas focadas em aplicações web. Junto disso, posso apontar a familiaridade que já tenho com a ferramenta.
+
+ - Dentre as bibliotecas usei o **TypeScript** e o **ESLint**, que serviram como testes estáticos e facilitaram a identificação de erros durante o desenvolvimento.
+- O **Express** foi usado junto do **Mongoose** para criar a aplicação em si. Essas bibliotecas permitiram a criação de uma API que responde à requisições HTTP e conecta ao banco de dados para enviar e receber dados.
+- O **Mocha** foi usado junto da biblioteca **chai** e o plug-in **chaiHttp** para criar os testes de integração.
+- As bibliotecas **jsonwebtoken** e **md5** foram utilizadas para lidar com questões de autenticação de usuário e criptografia.
+
+### MongoDB <img src="https://www.mongodb.com/assets/images/global/favicon.ico" alt="MongoDB Logo" width="20"/>
+
+O MongoDB foi escolhido como tecnologia de banco de dados não relacional para salvar os dados da aplicação. A escolha se deu especialmente pela facilidade de uso, criação e manipulação de dados, além da facilidade de disponibilizar o banco de dados através do MongoDB Atlas.
+
+Dependendo do caso de uso, onde questões estruturais e de confiança do banco de dados são importantes (salvar dados de usuários/financeiros), pessoalmente prefiro um banco de dados relacional como MySQL ou PostgreSQL.
+
+### Docker <img src="https://www.docker.com/favicon.ico" alt="Docker Logo" width="20"/>
+
+Escolhi usar o Docker como mecanismo principal para executar a API. Tanto o deploy como os testes de integração dependem de uma ou mais implementações Docker.
+
+É uma decisão que para mim faz sentido visando descomplicar ao máximo os requisitos necessários para rodar a aplicação, além de padronizar o banco de dados e o ambiente de desenvolvimento para o time de desenvolvimento.
 
 ## Referências a outros projetos
 
