@@ -33,11 +33,11 @@ Dentre as funcionalidades está a criação de usuários, vendedores, restaurant
 
   ### Configurar o ambiente (.env)
 
-  - Altere o arquivo `.env.example` com as suas variáveis de ambiente:
+  - Altere o arquivo `.env.example` na raiz do projeto com as suas variáveis de ambiente:
   
     ```
-      MONGODB_USERNAME=user_example // Usuário do banco MongoDB
-      MONGODB_PASSWORD=Strong_Password123 // Senha do banco MongoDB
+      MONGODB_USERNAME=user_example // Opcional p/ Desenvolvimento - Usuário do banco MongoDB
+      MONGODB_PASSWORD=Strong_Password123 // Opcional p/ Desenvolvimento - Senha do banco MongoDB
       JWT_SECRET=Strong_Password123 // Senha para encriptar tokens de autenticação do usuário
       PORT=3001 // Opcional - Porta onde a sua aplicação vai rodar (Padrão 3001)
     ```
@@ -77,8 +77,8 @@ Dentre as funcionalidades está a criação de usuários, vendedores, restaurant
   - Altere o arquivo `.env.example` com as suas variáveis de ambiente:
   
     ```
-      MONGODB_USERNAME=user_example // Usuário do banco MongoDB
-      MONGODB_PASSWORD=Strong_Password123 // Senha do banco MongoDB
+      MONGODB_USERNAME=user_example // Opcional p/ Desenvolvimento - Usuário do banco MongoDB
+      MONGODB_PASSWORD=Strong_Password123 // Opcional p/ Desenvolvimento - Senha do banco MongoDB
       JWT_SECRET=Strong_Password123 // Senha para encriptar tokens de autenticação do usuário
       PORT=3001 // Opcional - Porta onde a sua aplicação vai rodar (Padrão 3001)
     ```
